@@ -52,6 +52,7 @@ CREATE TABLE brands(
 );
 
 ---------------------- CLIENT PAYMENT PORTION ----------------------  
+-- ORDERS
 CREATE TABLE orders(
   ID INT PRIMARY KEY AUTO_INCREMENT,
   UserID INT NOT NULL,
@@ -61,34 +62,37 @@ CREATE TABLE orders(
   FOREIGN KEY (UserID) REFERENCES users(ID)
 );
 
+-- ORDER ITEMS
 CREATE TABLE order_items(
-  ID int [primary key, increment]
-  OrderID int [not null, ref: > orders.ID]
-  BikeID int [not null, ref: < bikes.ID]
-  Quantity int [not null]
-  Price double [not null]
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  OrderID INT NOT NULL,
+  BikeID INT NOT NULL,
+  Quantity INT NOT NULL,
+  Price DOUBLE NOT NULL,
+  FOREIGN KEY (OrderID) REFERENCES orders(ID),
+  FOREIGN KEY (BikeID) REFERENCES bikes(ID)
 );
 
-
+-- CARTS
 CREATE TABLE carts(
-  ID INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for the cart entry
-  UserID INT NOT NULL,  -- Reference to the user who added the item to the cart
-  BikeID INT NOT NULL,  -- Reference to the bike being added to the cart
-  Quantity INT NOT NULL,  -- Quantity of the bike being added
-  FOREIGN KEY (UserID) REFERENCES users(ID) ON DELETE CASCADE,  -- Relation to users
-  FOREIGN KEY (BikeID) REFERENCES bikes(ID) ON DELETE CASCADE  -- Relation to bikes
+  ID INT PRIMARY KEY AUTO_INCREMENT,  
+  UserID INT NOT NULL, 
+  BikeID INT NOT NULL,  
+  Quantity INT NOT NULL,
+  FOREIGN KEY (UserID) REFERENCES users(ID),
+  FOREIGN KEY (BikeID) REFERENCES bikes(ID)
 );
 
-// CONTACTS
-Table contacts {
-  ID int [primary key, increment]
-  Name varchar(40) [not null]
-  Email varchar(100) [not null]
-  Message text [not null]
-}
+-- CONTACTS
+CREATE TABLE contacts(
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  Name VARCHAR(100) NOT NULL,
+  Email VARCHAR(100) NOT NULL,
+  Message TEXT NOT NULL
+);
 
 
-
+-- MAINTENANCE --
 -- PAYMENTS TABLE
 CREATE TABLE payments (
   ID INT PRIMARY KEY AUTO_INCREMENT,
